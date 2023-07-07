@@ -1,37 +1,3 @@
-const initialFacts = [
-  {
-    id: 1,
-    text: "React is being developed by Meta (formerly facebook)",
-    source: "https://opensource.fb.com/",
-    category: "technology",
-    votesInteresting: 24,
-    votesMindblowing: 9,
-    votesFalse: 4,
-    createdIn: 2021,
-  },
-  {
-    id: 2,
-    text: "Millennial dads spend 3 times as much time with their kids than their fathers spent with them. In 1982, 43% of fathers had never changed a diaper. Today, that number is down to 3%",
-    source:
-      "https://www.mother.ly/parenting/millennial-dads-spend-more-time-with-their-kids",
-    category: "society",
-    votesInteresting: 11,
-    votesMindblowing: 2,
-    votesFalse: 0,
-    createdIn: 2019,
-  },
-  {
-    id: 3,
-    text: "Lisbon is the capital of Portugal",
-    source: "https://en.wikipedia.org/wiki/Lisbon",
-    category: "society",
-    votesInteresting: 8,
-    votesMindblowing: 3,
-    votesFalse: 1,
-    createdIn: 2015,
-  },
-];
-
 const CATEGORIES = [
   { name: "technology", color: "#3b82f6" },
   { name: "science", color: "#16a34a" },
@@ -47,6 +13,8 @@ const CATEGORIES = [
 const btn = document.querySelector(".btn-open");
 const form = document.querySelector(".fact-form");
 const factsList = document.querySelector(".facts-list");
+const categoryButtons = document.querySelectorAll(".btn-category");
+const allCategoriesButton = document.querySelector(".btn-all-categories");
 
 // Create DOM elements: Render facts in list
 factsList.innerHTML = "";
@@ -56,13 +24,14 @@ loadFacts();
 
 async function loadFacts() {
   const res = await fetch(
-    "https://hwtkikrqvnsrrpkjrytv.supabase.co/rest/v1/facts",
+    "https://gbsdsyjdiazcdbplgqoi.supabase.co/rest/v1/facts",
+    
     {
       headers: {
         apikey:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh3dGtpa3Jxdm5zcnJwa2pyeXR2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2Njg3NTk3ODUsImV4cCI6MTk4NDMzNTc4NX0.l_PGJRds8Lmg17Pn7eqNwFqYWH4rST2gVlTeGCfKTjk",
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdic2RzeWpkaWF6Y2RicGxncW9pIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODQ2NzM4NzMsImV4cCI6MjAwMDI0OTg3M30.44rCVHLdHzmNj2yldHqSCB_sztI6E9g_Qb8PTYLDUO0",
         authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh3dGtpa3Jxdm5zcnJwa2pyeXR2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2Njg3NTk3ODUsImV4cCI6MTk4NDMzNTc4NX0.l_PGJRds8Lmg17Pn7eqNwFqYWH4rST2gVlTeGCfKTjk",
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdic2RzeWpkaWF6Y2RicGxncW9pIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODQ2NzM4NzMsImV4cCI6MjAwMDI0OTg3M30.44rCVHLdHzmNj2yldHqSCB_sztI6E9g_Qb8PTYLDUO0",
       },
     }
   );
@@ -106,9 +75,127 @@ btn.addEventListener("click", function () {
   }
 });
 
+
+
+
+// Add event listener for form submission
+document.querySelector(".btn-large").addEventListener("click", async function (event) {
+  event.preventDefault();
+
+  const factInput = document.querySelector(".fact-form input[type='text']");
+  const sourceInput = document.querySelector(".fact-form input[type='text']:last-of-type");
+  const categorySelect = document.querySelector(".fact-form select");
+
+  const factText = factInput.value.trim();
+  const sourceText = sourceInput.value.trim();
+  const categoryValue = categorySelect.value;
+
+  if (factText === "" || sourceText === "" || categoryValue === "") {
+    alert("Please fill in all fields");
+    return;
+  }
+
+  const factData = {
+    text: factText,
+    source: sourceText,
+    category: categoryValue,
+  };
+
+  try {
+    const res = await fetch("https://gbsdsyjdiazcdbplgqoi.supabase.co/rest/v1/facts", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        apikey:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdic2RzeWpkaWF6Y2RicGxncW9pIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODQ2NzM4NzMsImV4cCI6MjAwMDI0OTg3M30.44rCVHLdHzmNj2yldHqSCB_sztI6E9g_Qb8PTYLDUO0",
+          authorization:
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdic2RzeWpkaWF6Y2RicGxncW9pIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODQ2NzM4NzMsImV4cCI6MjAwMDI0OTg3M30.44rCVHLdHzmNj2yldHqSCB_sztI6E9g_Qb8PTYLDUO0",
+      },
+      body: JSON.stringify(factData),
+    });
+
+    if (res.ok) {
+      const newData = await res.json();
+
+      // Add the new fact to the facts list
+      createFactsList([newData, ...factsList.children]);
+
+      // Clear the form fields
+      factInput.value = "";
+      sourceInput.value = "";
+      categorySelect.value = "";
+
+      // Remove active class from all category buttons
+      categoryButtons.forEach((btn) => btn.classList.remove("active"));
+    } else {
+      console.error(res.statusText);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+});
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
 console.log([7, 64, 6, -23, 11].filter((el) => el > 10));
 console.log([7, 64, 6, -23, 11].find((el) => el > 10));
 console.log(CATEGORIES.find((cat) => cat.name === "society").color);
+
+
+
+
+// Filter facts by category when a category button is clicked
+categoryButtons.forEach((button) => {
+  button.addEventListener("click", function () {
+    const category = button.textContent.toLowerCase();
+    filterFactsByCategory(category);
+    // Highlight the active category button
+    categoryButtons.forEach((btn) => btn.classList.remove("active"));
+    button.classList.add("active");
+  });
+});
+
+// Show all facts when "All" button is clicked
+allCategoriesButton.addEventListener("click", function () {
+  showAllFacts();
+  // Remove active class from all category buttons
+  categoryButtons.forEach((btn) => btn.classList.remove("active"));
+});
+
+function filterFactsByCategory(category) {
+  const facts = Array.from(factsList.children);
+  facts.forEach((fact) => {
+    const factCategory = fact.querySelector(".tag").textContent.toLowerCase();
+    if (category === "all" || factCategory === category) {
+      fact.style.display = "block";
+    } else {
+      fact.style.display = "none";
+    }
+  });
+}
+
+function showAllFacts() {
+  const facts = Array.from(factsList.children);
+  facts.forEach((fact) => {
+    fact.style.display = "block";
+  });
+}
+
+
 
 /*
 let votesInteresting = 23;
