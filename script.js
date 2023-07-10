@@ -25,7 +25,7 @@ loadFacts();
 async function loadFacts() {
   const res = await fetch(
     "https://gbsdsyjdiazcdbplgqoi.supabase.co/rest/v1/facts",
-    
+
     {
       headers: {
         apikey:
@@ -75,88 +75,86 @@ btn.addEventListener("click", function () {
   }
 });
 
-
-
-
 // Add event listener for form submission
-document.querySelector(".btn-large").addEventListener("click", async function (event) {
-  event.preventDefault();
+document
+  .querySelector(".btn-large")
+  .addEventListener("click", async function (event) {
+    event.preventDefault();
 
-  const factInput = document.querySelector(".fact-form input[type='text']");
-  const sourceInput = document.querySelector(".fact-form input[type='text']:last-of-type");
-  const categorySelect = document.querySelector(".fact-form select");
+    const factInput = document.querySelector(".fact-form input[type='text']");
+    const sourceInput = document.querySelector(
+      ".fact-form input[type='text']:last-of-type"
+    );
+    const categorySelect = document.querySelector(".fact-form select");
 
-  const factText = factInput.value.trim();
-  const sourceText = sourceInput.value.trim();
-  const categoryValue = categorySelect.value;
+    const factText = factInput.value.trim();
+    const sourceText = sourceInput.value.trim();
+    const categoryValue = categorySelect.value;
 
-  if (factText === "" || sourceText === "" || categoryValue === "") {
-    alert("Please fill in all fields");
-    return;
-  }
-
-  const factData = {
-    text: factText,
-    source: sourceText,
-    category: categoryValue,
-  };
-
-  try {
-    const res = await fetch("https://gbsdsyjdiazcdbplgqoi.supabase.co/rest/v1/facts", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        apikey:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdic2RzeWpkaWF6Y2RicGxncW9pIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODQ2NzM4NzMsImV4cCI6MjAwMDI0OTg3M30.44rCVHLdHzmNj2yldHqSCB_sztI6E9g_Qb8PTYLDUO0",
-          authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdic2RzeWpkaWF6Y2RicGxncW9pIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODQ2NzM4NzMsImV4cCI6MjAwMDI0OTg3M30.44rCVHLdHzmNj2yldHqSCB_sztI6E9g_Qb8PTYLDUO0",
-      },
-      body: JSON.stringify(factData),
-    });
-
-    if (res.ok) {
-      const newData = await res.json();
-
-      // Add the new fact to the facts list
-      createFactsList([newData, ...factsList.children]);
-
-      // Clear the form fields
-      factInput.value = "";
-      sourceInput.value = "";
-      categorySelect.value = "";
-
-      // Remove active class from all category buttons
-      categoryButtons.forEach((btn) => btn.classList.remove("active"));
-    } else {
-      console.error(res.statusText);
+    if (factText === "" || sourceText === "" || categoryValue === "") {
+      alert("Please fill in all fields");
+      return;
     }
-  } catch (error) {
-    console.error(error);
-  }
-});
 
+    const factData = {
+      text: factText,
+      source: sourceText,
+      category: categoryValue,
+    };
 
+    try {
+      const res = await fetch(
+        "https://gbsdsyjdiazcdbplgqoi.supabase.co/rest/v1/facts",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            apikey:
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdic2RzeWpkaWF6Y2RicGxncW9pIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODQ2NzM4NzMsImV4cCI6MjAwMDI0OTg3M30.44rCVHLdHzmNj2yldHqSCB_sztI6E9g_Qb8PTYLDUO0",
+            authorization:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdic2RzeWpkaWF6Y2RicGxncW9pIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODQ2NzM4NzMsImV4cCI6MjAwMDI0OTg3M30.44rCVHLdHzmNj2yldHqSCB_sztI6E9g_Qb8PTYLDUO0",
+          },
+          body: JSON.stringify(factData),
+        }
+      );
 
+      if (res.ok) {
+        const newData = await res.json();
 
+        // Add the new fact to the facts list
+        createFactsList([newData, ...factsList.children]);
 
+        // Clear the form fields
+        factInput.value = "";
+        sourceInput.value = "";
+        categorySelect.value = "";
 
+        // Remove active class from all category buttons
+        categoryButtons.forEach((btn) => btn.classList.remove("active"));
+      } else {
+        console.error(res.statusText);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  });
 
-
-
- 
-
-
-
-
-
-
+// try {
+//   const res = await fetch("https://gbsdsyjdiazcdbplgqoi.supabase.co/rest/v1/facts", {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//       apikey:
+//         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdic2RzeWpkaWF6Y2RicGxncW9pIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODQ2NzM4NzMsImV4cCI6MjAwMDI0OTg3M30.44rCVHLdHzmNj2yldHqSCB_sztI6E9g_Qb8PTYLDUO0",
+//         authorization:
+//         "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdic2RzeWpkaWF6Y2RicGxncW9pIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODQ2NzM4NzMsImV4cCI6MjAwMDI0OTg3M30.44rCVHLdHzmNj2yldHqSCB_sztI6E9g_Qb8PTYLDUO0",
+//     },
+//     body: JSON.stringify(factData),
+//   });
 
 console.log([7, 64, 6, -23, 11].filter((el) => el > 10));
 console.log([7, 64, 6, -23, 11].find((el) => el > 10));
 console.log(CATEGORIES.find((cat) => cat.name === "society").color);
-
-
-
 
 // Filter facts by category when a category button is clicked
 categoryButtons.forEach((button) => {
@@ -194,8 +192,6 @@ function showAllFacts() {
     fact.style.display = "block";
   });
 }
-
-
 
 /*
 let votesInteresting = 23;
